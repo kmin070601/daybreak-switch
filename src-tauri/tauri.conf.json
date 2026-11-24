@@ -1,0 +1,46 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Daybreak Switch",
+  "version": "0.1.0",
+  "identifier": "com.daybreakswitch.app",
+  "build": {
+    "frontendDist": "../desktop-dist",
+    "beforeBuildCommand": "node tools/desktop-dist.mjs"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "security": { "csp": null },
+    "windows": [
+      {
+        "label": "main",
+        "title": "Daybreak Switch",
+        "url": "index.html",
+        "width": 1180,
+        "height": 760,
+        "minWidth": 420,
+        "minHeight": 520,
+        "center": true
+      },
+      {
+        "label": "osd",
+        "title": "Daybreak Switch OSD",
+        "url": "osd.html",
+        "width": 560,
+        "height": 170,
+        "visible": false,
+        "decorations": false,
+        "transparent": true,
+        "shadow": false,
+        "resizable": false,
+        "alwaysOnTop": true,
+        "skipTaskbar": true,
+        "focus": false
+      }
+    ]
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis"],
+    "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.ico"]
+  }
+}

@@ -1,0 +1,10 @@
+# 빌드 결과물
+desktop-dist/
+dist/
+src-tauri/target/
+src-tauri/gen/
+
+# 작업 자료 (저장소에는 올리지 않는다)
+reference/
+mockups/
+shots/

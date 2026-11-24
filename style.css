@@ -1,0 +1,234 @@
+:root {
+  --page: rgb(12 13 23);
+  --accent: 150 162 255;
+  --ink: 236 236 246;
+  --mono: ui-monospace, "Cascadia Mono", "D2Coding", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --sans: system-ui, -apple-system, "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { background: var(--page); }
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  background: var(--page);
+  color: rgb(var(--ink));
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* 화면 가장자리를 살짝 눌러 주는 비네트. 캔버스와 배경에 똑같이 걸려 이음매가 보이지 않는다 */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 50% 46%, transparent 45%, rgb(0 0 0 / 0.42) 100%);
+  z-index: 5;
+}
+
+.stage {
+  flex: 1;
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  padding: clamp(24px, 5vh, 56px) clamp(16px, 4vw, 48px) 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(8px, 3vh, 28px);
+}
+
+/* ---------- 머리말 ---------- */
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding: 0 clamp(0px, 3.4vw, 44px);
+}
+
+.series {
+  margin: 0 0 14px;
+  font: 500 clamp(11px, 1.15vw, 14px) / 1 var(--mono);
+  letter-spacing: 0.08em;
+  color: rgb(var(--ink) / 0.5);
+}
+
+.title-row { display: flex; align-items: center; gap: clamp(12px, 2vw, 24px); flex-wrap: wrap; }
+
+h1 { margin: 0; line-height: 0; color: rgb(var(--ink)); }
+h1 svg {
+  display: block;
+  height: clamp(27px, 4.1vw, 45px);
+  width: auto;
+  fill: currentColor;
+  filter: drop-shadow(0 0 14px rgb(var(--accent) / 0.35));
+}
+
+.badge {
+  padding: 0.5em 0.9em 0.45em;
+  border: 1px solid rgb(var(--accent) / 0.45);
+  border-radius: 999px;
+  background: rgb(var(--accent) / 0.1);
+  font: 500 clamp(11px, 1.2vw, 15px) / 1 var(--mono);
+  letter-spacing: 0.06em;
+  color: rgb(var(--ink) / 0.86);
+  white-space: nowrap;
+}
+
+.lede {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: clamp(13px, 1.3vw, 16px);
+  line-height: 1.55;
+  letter-spacing: 0.02em;
+  color: rgb(var(--ink) / 0.78);
+}
+.lede svg {
+  --lv: 0;
+  width: 30px; height: 26px; flex: none;
+  color: rgb(var(--accent));
+  transform: scaleY(calc(0.55 + var(--lv) * 0.6));
+  opacity: calc(0.6 + var(--lv) * 0.4);
+}
+
+/* ---------- 슬라이더 ---------- */
+.deck {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas: "down switch up" ". caption .";
+  align-items: center;
+  column-gap: clamp(0px, 0.6vw, 8px);
+}
+
+.switch {
+  grid-area: switch;
+  display: block;
+  width: 100%;
+  aspect-ratio: 2.72;
+  touch-action: none;            /* 동물을 위아래로도 끌 수 있어야 한다 */
+  outline: none;                 /* 포커스 고리는 셰이더가 캡슐 모양으로 그린다 */
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.spk {
+  width: clamp(36px, 4vw, 48px);
+  height: clamp(36px, 4vw, 48px);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  background: none;
+  color: rgb(var(--ink) / 0.72);
+  cursor: pointer;
+  transition: color 0.15s, background-color 0.15s, transform 0.1s;
+}
+.spk svg { width: 70%; height: 70%; }
+.spk:hover { color: rgb(var(--ink)); background: rgb(var(--accent) / 0.12); }
+.spk:active { transform: scale(0.92); }
+.spk:focus-visible { outline: 2px solid rgb(var(--accent)); outline-offset: 2px; }
+.spk-down { grid-area: down; }
+.spk-up { grid-area: up; }
+
+.caption {
+  grid-area: caption;
+  margin-top: clamp(-34px, -2.4vw, -8px);
+  text-align: center;
+}
+.caption p { margin: 0; }
+.caption i, .foot i { font-style: normal; opacity: 0.5; padding: 0 0.5em; }
+.caption-main {
+  font: 500 clamp(12px, 1.5vw, 18px) / 1.4 var(--mono);
+  letter-spacing: 0.1em;
+  color: rgb(var(--ink) / 0.74);
+}
+#vol { color: rgb(var(--accent)); font-variant-numeric: tabular-nums; }
+.caption-room {
+  margin-top: 8px !important;
+  font-size: clamp(11px, 1.05vw, 13px);
+  letter-spacing: 0.04em;
+  color: rgb(var(--ink) / 0.46);
+}
+#room { font-family: var(--mono); color: rgb(var(--ink) / 0.66); }
+
+.hint {
+  margin: 0;
+  text-align: center;
+  font-size: clamp(12px, 1.1vw, 14px);
+  color: rgb(var(--ink) / 0.5);
+  transition: opacity 0.6s;
+}
+.hint.is-done { opacity: 0; }
+.hint-touch { display: none; }
+@media (hover: none) and (pointer: coarse) {
+  .hint-mouse { display: none; }
+  .hint-touch { display: inline; }
+}
+
+.fallback, .noscript { display: none; text-align: center; color: rgb(var(--ink) / 0.8); padding: 24px; }
+.no-gl .deck, .no-gl .hint { display: none; }
+.no-gl .fallback, .noscript { display: block; }
+
+/* ---------- 꼬리말 ---------- */
+.foot {
+  padding: 28px clamp(16px, 4vw, 48px) 26px;
+  text-align: center;
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: rgb(var(--ink) / 0.42);
+}
+.foot p { margin: 0; }
+.download {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  column-gap: 12px;
+  align-items: center;
+  margin: 0 0 16px;
+  padding: 12px 20px 12px 16px;
+  border: 1px solid rgb(var(--accent) / 0.5);
+  border-radius: 14px;
+  background: rgb(var(--accent) / 0.12);
+  color: rgb(var(--ink));
+  text-decoration: none;
+  text-align: left;
+  transition: background-color 0.15s, transform 0.1s;
+}
+.download svg { grid-row: span 2; width: 22px; height: 22px; color: rgb(var(--accent)); }
+.download span { font-size: 15px; font-weight: 600; }
+.download small { font-size: 11.5px; color: rgb(var(--ink) / 0.55); }
+.download:hover { background: rgb(var(--accent) / 0.22); }
+.download:active { transform: scale(0.98); }
+.download:focus-visible { outline: 2px solid rgb(var(--accent)); outline-offset: 3px; }
+.is-desktop .download { display: none; }
+.foot-tech { font-family: var(--mono); letter-spacing: 0.06em; font-size: 11.5px; color: rgb(var(--ink) / 0.3); }
+
+/* ---------- 좁은 화면 ---------- */
+@media (max-width: 640px) {
+  .head { align-items: flex-start; flex-direction: column; gap: 18px; padding: 0 4px; }
+  .lede br { display: none; }
+  .deck {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "switch switch switch" "down caption up";
+    margin: 0 -10px;
+  }
+  .caption { margin-top: 0; }
+  .caption-main { letter-spacing: 0.02em; font-size: 11.5px; white-space: nowrap; }
+  .caption i { padding: 0 0.25em; }
+  .foot-tech { letter-spacing: 0; font-size: 10.5px; }
+  .foot i { padding: 0 0.25em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hint, .spk { transition: none; }
+}
