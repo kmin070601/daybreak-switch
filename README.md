@@ -1,5 +1,7 @@
 # Daybreak Switch · No. 062
 
+**사이트**: https://kmin070601.github.io/daybreak-switch/ · **Windows 앱**: [DaybreakSwitch-setup.exe](https://github.com/kmin070601/daybreak-switch/releases/latest/download/DaybreakSwitch-setup.exe) (1.6MB)
+
 유리구슬을 밀면 그 자리의 밤과 아침이 바뀌는 볼륨 슬라이더입니다. 웹 재질 연구 시리즈 No. 062.
 
 - **사이트**: 브라우저에서 바로 열립니다. 슬라이더는 페이지 안의 소리만 조절합니다.

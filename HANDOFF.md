@@ -1,7 +1,7 @@
 # Daybreak Switch (No. 062): Fable 인계 문서
 
 > 작성: Opus 5.5 사전 확인, 2026-11-24
-> 상태: **1단계(웹) 구현 완료, 사용자 확인 대기.** 다음은 2) 데스크톱(Tauri v2) 3) 배포(GitHub Pages + Releases). 결과는 6장.
+> 상태: **1~3단계 완료.** 사이트 https://kmin070601.github.io/daybreak-switch/ , 저장소 https://github.com/kmin070601/daybreak-switch , 설치 파일은 Releases v0.1.0. 배포 기록은 10장.
 
 ## 1. 무엇을 만드는가
 
@@ -192,3 +192,12 @@
 - 미확인: OSD와 본 창의 실제 모습(투명 배경 등)을 눈으로 보지 못함, 구슬을 끌어 볼륨 바꾸기, 본 창을 닫았을 때 배경 소리가 멈추는지, 기본 팝업이 화면에 안 뜨는지(키는 삼키지만 화면은 못 봄), 설치 파일로 설치하는 과정.
 - 주의: 시험 중 앱 실행 10초쯤 뒤 볼륨이 15~18%로 바뀐 일이 두 번 있었다. 기록을 켠 뒤에는 재현되지 않았고 앱이 볼륨을 바꾼 기록도 없었다. 그 시간에 누가 직접 조작했을 가능성이 있다.
 - 남은 것: 로그인 시 자동 실행 옵션, 코드 서명(없으면 SmartScreen 경고), 3단계 배포(GitHub Pages + Releases).
+
+## 10. 3단계 배포 — 2026-11-24 (Opus 5.5)
+
+- 저장소: https://github.com/kmin070601/daybreak-switch (공개). `reference/`(원본 영상 프레임, 타인 저작물), `mockups/`, `shots/`, 빌드 결과물은 .gitignore로 제외.
+- 사이트: GitHub Pages, main 브랜치 루트. https://kmin070601.github.io/daybreak-switch/
+- 설치 파일: Releases v0.1.0의 `DaybreakSwitch-setup.exe`. 사이트 버튼은 `releases/latest/download/DaybreakSwitch-setup.exe` 고정 주소라 새 릴리스에 같은 이름으로 올리면 버튼을 안 고쳐도 된다.
+- 확인: Pages 빌드 완료 후 사이트 200, WebGL 동작, 콘솔 오류 없음, 다운로드 링크로 받은 파일이 빌드한 설치 파일과 바이트 단위로 같음.
+- 새 버전 배포: `cargo tauri build` → 설치 파일을 `DaybreakSwitch-setup.exe`로 이름 바꿔 `gh release create vX.Y.Z`. 사이트는 main에 push하면 1~2분 뒤 반영.
+- 남은 것: 로그인 시 자동 실행 옵션, 코드 서명.
